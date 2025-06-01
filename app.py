@@ -6,23 +6,23 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('vehicle_service_data.csv')  # Example file name
 
 # Sidebar filters
-st.sidebar.header("🔧 Filter Options")
+st.sidebar.header("Filter Options")
 month = st.sidebar.selectbox("Select Month", df['Month'].unique())
 filtered_df = df[df['Month'] == month]
 
 # Title
-st.title("🚗 Auto Shop Performance Dashboard")
+st.title("Auto Shop Performance Dashboard")
 st.subheader(f"Monthly Overview: {month}")
 
 # 1. Online Reputation Summary (Mocked)
-st.markdown("### ⭐ Online Reputation Summary")
+st.markdown("### Online Reputation Summary")
 st.metric(label="Total Google Reviews", value="198", delta="+4")
 st.metric(label="Avg Star Rating", value="4.3 ★")
 st.metric(label="Negative Reviews (last 30 days)", value="1 ⚠️")
 st.markdown("**Top Review Keywords:** Fast, Oil Change, Friendly")
 
 # 2. Customer Retention Snapshot
-st.markdown("### 🔁 Customer Retention Snapshot")
+st.markdown("### Customer Retention Snapshot")
 st.write("**Total Customers:**", len(filtered_df))
 repeat_customers = filtered_df[filtered_df['Repeat Customer'] == 'Yes']
 st.write("**Repeat Customers:**", len(repeat_customers), f"({len(repeat_customers)/len(filtered_df)*100:.1f}%)")
@@ -31,7 +31,7 @@ inactive_count = 72  # placeholder
 st.write("**Inactive Customers (6+ months):**", inactive_count)
 
 # 3. Service Profitability
-st.markdown("### 💸 Service Profitability Breakdown")
+st.markdown("### Service Profitability Breakdown")
 service_profit = filtered_df.groupby('Service Type').agg({
     'Revenue': 'mean',
     'Cost': 'mean',
@@ -41,7 +41,7 @@ service_profit['Profit Margin (%)'] = ((service_profit['Revenue'] - service_prof
 st.dataframe(service_profit)
 
 # Visualization
-st.markdown("### 📈 Revenue vs. Cost per Service")
+st.markdown("### Revenue vs. Cost per Service")
 fig, ax = plt.subplots()
 service_profit[['Revenue', 'Cost']].plot(kind='bar', ax=ax)
 st.pyplot(fig)
