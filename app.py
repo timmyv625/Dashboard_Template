@@ -20,8 +20,8 @@ st.subheader(f"Monthly Overview: {month}")
 
 # 1. Online Reputation Summary (Mocked)
 st.markdown("### Online Reputation Summary Ex.")
-st.metric(label="Total Google Reviews", value="198", delta="+4")
-st.metric(label="Avg Star Rating", value="4.3 ★")
+st.metric(label="Total Google Reviews", value="98", delta="+4")
+st.metric(label="Avg Star Rating", value="4.1 ★")
 st.metric(label="Negative Reviews (last 30 days)", value="1 ⚠️")
 st.markdown("**Top Review Keywords:** Fast, Oil Change, Friendly")
 
