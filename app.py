@@ -37,22 +37,29 @@ st.write("**Inactive Customers (6+ months):**", inactive_count)
 # 3. Service Profitability
 st.markdown("### Service Profitability Breakdown Ex.")
 
-styled_df = service_profit.style.format({
-    'Revenue': '${:,.2f}',
-    'Cost': '${:,.2f}',
-    'Profit Margin (%)': '{:.1f} %'
-}).background_gradient(subset=['Profit Margin (%)'], cmap='RdYlGn')
+service_profit = filtered_df.groupby('SERVICE_TYPE').agg(
+    Revenue=('Revenue', 'mean'),
+    Cost=('Cost', 'mean'),
+    Jobs=('SERVICE_TYPE', 'count')
+).reset_index()
 
-st.write(styled_df)  # Use st.write instead of st.dataframe
+service_profit['Profit Margin (%)'] = ((service_profit['Revenue'] - service_profit['Cost']) /
+                                       service_profit['Revenue'] * 100)
 
-# Profit margin bar chart
+service_profit['Revenue'] = service_profit['Revenue'].round(2)
+service_profit['Cost'] = service_profit['Cost'].round(2)
+service_profit['Profit Margin (%)'] = service_profit['Profit Margin (%)'].round(1)
+
+st.markdown("### Service Profitability Breakdown Ex.")
+st.dataframe(service_profit)
+
 fig, ax = plt.subplots(figsize=(8, 4))
-service_profit['Profit Margin (%)'].plot(kind='bar', color='seagreen', ax=ax)
+ax.bar(service_profit['SERVICE_TYPE'], service_profit['Profit Margin (%)'], color='seagreen')
 ax.set_ylabel('Profit Margin (%)')
 ax.set_title('Profit Margin by Service Type')
 ax.grid(axis='y')
-
 st.pyplot(fig)
+
 
 # Summary Box
 st.markdown("---")
