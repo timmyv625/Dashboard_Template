@@ -1,4 +1,4 @@
-"CUSTOMER ID","CITY","STATE","SERVICE_HISTORY","COMMON PROBLEM","SERVICE_TYPE","VEHICAL COMPANY","SERIVCE_DATE","Revenue","Cost","CUSTOMER_NAME","REPEAT_CUSTOMER"
+"CUSTOMER ID","CITY","STATE","SERVICE_HISTORY","COMMON PROBLEM","SERVICE_TYPE","VEHICAL COMPANY","SERVICE_DATE","Revenue","Cost","CUSTOMER_NAME","REPEAT_CUSTOMER"
 1,"Ananthapuram","Andhra Pradesh","Oil Change; Brake Repair","Brake noise","Brake pad replacement","Maruti Suzuki",2024-06-27,179.41,139.58,"Mejia Alissa","Yes"
 2,"Ananthapuram","Andhra Pradesh","Engine Repair; Tire Rotation","Engine overheating","Radiator replacement","Hyundai",2024-01-14,404.74,217.15,"Vandyke Allison","No"
 3,"Ananthapuram","Andhra Pradesh","Bodywork; Paint Job","Dents and scratches","Body repair and repaint","Tata Motors",2024-07-13,234.04,137.12,"Halverson Austin","No"
