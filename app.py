@@ -52,10 +52,12 @@ service_profit['Profit Margin (%)'] = service_profit['Profit Margin (%)'].round(
 
 st.dataframe(service_profit)
 
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.barh(service_profit['SERVICE_TYPE'], service_profit['Profit Margin (%)'], color='seagreen')
+sorted_df = service_profit.sort_values('Profit Margin (%)', ascending=True)  # ascending=True puts high margin at top
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.barh(sorted_df.index, sorted_df['Profit Margin (%)'], color='seagreen')
 ax.set_xlabel('Profit Margin (%)')
-ax.set_title('Profit Margin by Service Type')
+ax.set_title('Profit Margin by Service Type (Sorted)')
 ax.grid(axis='x')
 
 st.pyplot(fig)
