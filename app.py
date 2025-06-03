@@ -36,7 +36,6 @@ st.write("**Inactive Customers (6+ months):**", inactive_count)
 
 # 3. Service Profitability
 st.markdown("### Service Profitability Breakdown")
-st.markdown("### Service Profitability Breakdown")
 
 styled_df = service_profit.style.format({
     'Revenue': '${:,.2f}',
@@ -44,10 +43,10 @@ styled_df = service_profit.style.format({
     'Profit Margin (%)': '{:.1f} %'
 }).background_gradient(subset=['Profit Margin (%)'], cmap='RdYlGn')
 
-st.dataframe(styled_df)
+st.write(styled_df)  # Use st.write instead of st.dataframe
 
 # Profit margin bar chart
-fig, ax = plt.subplots(figsize=(8,4))
+fig, ax = plt.subplots(figsize=(8, 4))
 service_profit['Profit Margin (%)'].plot(kind='bar', color='seagreen', ax=ax)
 ax.set_ylabel('Profit Margin (%)')
 ax.set_title('Profit Margin by Service Type')
