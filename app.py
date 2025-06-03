@@ -7,16 +7,15 @@ import calendar
 # Load and preprocess data
 df = pd.read_csv('vehicle_service_data.csv')
 
-# Sidebar filters
-st.sidebar.header("Filter Options")
-
+df['SERVICE_DATE'] = pd.to_datetime(df['SERVICE_DATE'], errors='coerce')
 df['Month_Num'] = df['SERVICE_DATE'].dt.month
 df['Month'] = df['SERVICE_DATE'].dt.month_name()
-
-month_order = list(calendar.month_name)[1:]
+month_order = list(calendar.month_name)[1:]  # ['January', ..., 'December']
 df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
 
-month = st.sidebar.selectbox("Select Month", sorted(df['Month'].unique(), key=lambda x: month_order.index(x)))
+# Sidebar filter
+st.sidebar.header("Filter Options")
+month = st.sidebar.selectbox("Select Month", sorted(df['Month'].dropna().unique(), key=lambda x: month_order.index(x)))
 
 
 # --- Custom CSS for center titles and modern feel ---
