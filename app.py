@@ -36,6 +36,8 @@ st.write("**Inactive Customers (6+ months):**", inactive_count)
 
 # 3. Service Profitability
 st.markdown("### Service Profitability Breakdown")
+st.markdown("### Service Profitability Breakdown")
+
 styled_df = service_profit.style.format({
     'Revenue': '${:,.2f}',
     'Cost': '${:,.2f}',
@@ -44,16 +46,13 @@ styled_df = service_profit.style.format({
 
 st.dataframe(styled_df)
 
-st.table(service_profit.style.format({
-    'Revenue': '${:,.2f}',
-    'Cost': '${:,.2f}',
-    'Profit Margin (%)': '{:.1f} %'
-}))
+# Profit margin bar chart
+fig, ax = plt.subplots(figsize=(8,4))
+service_profit['Profit Margin (%)'].plot(kind='bar', color='seagreen', ax=ax)
+ax.set_ylabel('Profit Margin (%)')
+ax.set_title('Profit Margin by Service Type')
+ax.grid(axis='y')
 
-# Visualization
-st.markdown("### Revenue vs. Cost per Service")
-fig, ax = plt.subplots()
-service_profit[['Revenue', 'Cost']].plot(kind='bar', ax=ax)
 st.pyplot(fig)
 
 # Summary Box
