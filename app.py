@@ -19,14 +19,14 @@ st.title("Auto Shop Performance Dashboard")
 st.subheader(f"Monthly Overview: {month}")
 
 # 1. Online Reputation Summary (Mocked)
-st.markdown("### Online Reputation Summary")
+st.markdown("### Online Reputation Summary Ex.")
 st.metric(label="Total Google Reviews", value="198", delta="+4")
 st.metric(label="Avg Star Rating", value="4.3 ★")
 st.metric(label="Negative Reviews (last 30 days)", value="1 ⚠️")
 st.markdown("**Top Review Keywords:** Fast, Oil Change, Friendly")
 
 # 2. Customer Retention Snapshot
-st.markdown("### Customer Retention Snapshot")
+st.markdown("### Customer Retention Snapshot Ex.")
 st.write("**Total Customers:**", len(filtered_df))
 repeat_customers = filtered_df[filtered_df['REPEAT_CUSTOMER'] == 'Yes']
 st.write("**Repeat Customers:**", len(repeat_customers), f"({len(repeat_customers)/len(filtered_df)*100:.1f}%)")
@@ -35,7 +35,7 @@ inactive_count = 72  # placeholder
 st.write("**Inactive Customers (6+ months):**", inactive_count)
 
 # 3. Service Profitability
-st.markdown("### Service Profitability Breakdown")
+st.markdown("### Service Profitability Breakdown Ex.")
 
 styled_df = service_profit.style.format({
     'Revenue': '${:,.2f}',
