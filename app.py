@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load data (placeholder: you would replace this with the real dataset)
+st.write("CSV Columns:", df.columns.tolist())
 df = pd.read_csv('vehicle_service_data.csv')  # Example file name
 
 # Sidebar filters
