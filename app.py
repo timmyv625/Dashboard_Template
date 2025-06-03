@@ -16,9 +16,9 @@ df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
 # Sidebar filter
 st.sidebar.header("Filter Options")
 month = st.sidebar.selectbox("Select Month", sorted(df['Month'].dropna().unique(), key=lambda x: month_order.index(x)))
+filtered_df = df[df['Month'] == month]
 
-
-# --- Custom CSS for center titles and modern feel ---
+# --- CSS ---
 st.markdown("""
     <style>
 .centered-title {
@@ -51,7 +51,7 @@ st.markdown("""
 st.markdown("<div class='centered-title'>Auto Shop Performance Dashboard</div>", unsafe_allow_html=True)
 st.write(f"**Month Selected:** {month}")
 
-# --- Section 1: Online Reputation ---
+# --- Online Reputation ---
 st.markdown("<div class='section-header'>Online Reputation Summary</div>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
@@ -61,7 +61,7 @@ col3.metric("Neg. Reviews (30d)", "1")
 
 st.markdown("Top Review Keywords: _Fast_, _Oil Change_, _Friendly_")
 
-# --- Section 2: Customer Retention ---
+# --- Customer Retention ---
 st.markdown("<div class='section-header'>Customer Retention Snapshot</div>", unsafe_allow_html=True)
 
 total_customers = len(filtered_df)
@@ -72,7 +72,7 @@ st.write(f"**Total Customers:** {total_customers}")
 st.write(f"**Repeat Customers:** {len(repeat_customers)} ({len(repeat_customers)/total_customers*100:.1f}%)")
 st.write(f"**Inactive Customers (6+ months):** {inactive_count}")
 
-# --- Section 3: Profitability ---
+# --- Profitability ---
 st.markdown("<div class='section-header'>Service Profitability Breakdown</div>", unsafe_allow_html=True)
 
 service_profit = filtered_df.groupby('SERVICE_TYPE').agg(
@@ -89,7 +89,7 @@ service_profit = service_profit.sort_values(by='Profit Margin (%)', ascending=Fa
 
 st.dataframe(service_profit, use_container_width=True)
 
-# Interactive Plotly chart
+# chart
 fig = px.bar(
     service_profit,
     x='Profit Margin (%)',
@@ -112,7 +112,7 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# --- Summary Section ---
+# --- Summary ---
 st.markdown("<div class='section-header'>Summary & Recommendations</div>", unsafe_allow_html=True)
 
 st.markdown("- Strong margins on tire rotation and A/C services.")
