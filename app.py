@@ -2,16 +2,22 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime
+import calendar
 
 # Load and preprocess data
 df = pd.read_csv('vehicle_service_data.csv')
-df['SERVICE_DATE'] = pd.to_datetime(df['SERVICE_DATE'])
-df['Month'] = df['SERVICE_DATE'].dt.month_name()
 
 # Sidebar filters
 st.sidebar.header("Filter Options")
-month = st.sidebar.selectbox("Select Month", df['Month'].unique())
-filtered_df = df[df['Month'] == month]
+
+df['Month_Num'] = df['SERVICE_DATE'].dt.month
+df['Month'] = df['SERVICE_DATE'].dt.month_name()
+
+month_order = list(calendar.month_name)[1:]
+df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
+
+month = st.sidebar.selectbox("Select Month", sorted(df['Month'].unique(), key=lambda x: month_order.index(x)))
+
 
 # --- Custom CSS for center titles and modern feel ---
 st.markdown("""
