@@ -50,15 +50,13 @@ service_profit['Revenue'] = service_profit['Revenue'].round(2)
 service_profit['Cost'] = service_profit['Cost'].round(2)
 service_profit['Profit Margin (%)'] = service_profit['Profit Margin (%)'].round(1)
 
-st.markdown("### Service Profitability Breakdown Ex.")
 st.dataframe(service_profit)
 
-fig, ax = plt.subplots(figsize=(10, 5))
-ax.bar(service_profit['SERVICE_TYPE'], service_profit['Profit Margin (%)'], color='seagreen')
-ax.set_ylabel('Profit Margin (%)')
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.barh(service_profit['SERVICE_TYPE'], service_profit['Profit Margin (%)'], color='seagreen')
+ax.set_xlabel('Profit Margin (%)')
 ax.set_title('Profit Margin by Service Type')
-ax.grid(axis='y')
-plt.xticks(rotation=45, ha='right')
+ax.grid(axis='x')
 
 st.pyplot(fig)
 
