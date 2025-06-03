@@ -23,17 +23,15 @@ st.metric(label="Negative Reviews (last 30 days)", value="1 ⚠️")
 st.markdown("**Top Review Keywords:** Fast, Oil Change, Friendly")
 
 # 2. Customer Retention Snapshot
+st.markdown("### Customer Retention Snapshot")
+st.write("**Total Customers:**", len(df))
 if 'Repeat Customer' in df.columns:
     repeat_customers = df[df['Repeat Customer'] == 'Yes']
     st.write("**Repeat Customers:**", len(repeat_customers), f"({len(repeat_customers)/len(df)*100:.1f}%)")
 else:
     st.warning("⚠️ 'Repeat Customer' column not found in the dataset.")
     st.write("Available columns:", df.columns.tolist())
-st.markdown("### Customer Retention Snapshot")
-st.write("**Total Customers:**", len(df))
-repeat_customers = df[df['Repeat Customer'] == 'Yes']
-st.write("**Repeat Customers:**", len(repeat_customers), f"({len(repeat_customers)/len(df)*100:.1f}%)")
-
+    
 inactive_count = 72  # placeholder
 st.write("**Inactive Customers (6+ months):**", inactive_count)
 
