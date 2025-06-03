@@ -7,7 +7,7 @@ df = pd.read_csv('vehicle_service_data.csv')  # Example file name
 
 # Sidebar filters
 
-df['SERIVCE_DATE'] = pd.to_datetime(df['SERIVCE_DATE'])
+df['SERVICE_DATE'] = pd.to_datetime(df['SERVICE_DATE'])
 df['Month'] = df['SERVICE_DATE'].dt.month_name()
 
 st.sidebar.header("Filter Options")
