@@ -29,7 +29,7 @@ if 'Repeat Customer' in df.columns:
     repeat_customers = df[df['Repeat Customer'] == 'Yes']
     st.write("**Repeat Customers:**", len(repeat_customers), f"({len(repeat_customers)/len(df)*100:.1f}%)")
 else:
-    st.warning("⚠️ 'Repeat Customer' column not found in the dataset.")
+    st.warning("***Repeat Customer' column not found in the dataset***")
     st.write("Available columns:", df.columns.tolist())
     
 inactive_count = 72  # placeholder
