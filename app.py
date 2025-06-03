@@ -36,13 +36,19 @@ st.write("**Inactive Customers (6+ months):**", inactive_count)
 
 # 3. Service Profitability
 st.markdown("### Service Profitability Breakdown")
-service_profit = filtered_df.groupby('SERVICE_TYPE').agg({
-    'Revenue': 'mean',
-    'Cost': 'mean',
-    'SERVICE_TYPE': 'count'
-}).rename(columns={'SERVICE_TYPE': 'Jobs'})
-service_profit['Profit Margin (%)'] = ((service_profit['Revenue'] - service_profit['Cost']) / service_profit['Revenue'] * 100).round(1)
-st.dataframe(service_profit)
+styled_df = service_profit.style.format({
+    'Revenue': '${:,.2f}',
+    'Cost': '${:,.2f}',
+    'Profit Margin (%)': '{:.1f} %'
+}).background_gradient(subset=['Profit Margin (%)'], cmap='RdYlGn')
+
+st.dataframe(styled_df)
+
+st.table(service_profit.style.format({
+    'Revenue': '${:,.2f}',
+    'Cost': '${:,.2f}',
+    'Profit Margin (%)': '{:.1f} %'
+}))
 
 # Visualization
 st.markdown("### Revenue vs. Cost per Service")
