@@ -16,29 +16,29 @@ filtered_df = df[df['Month'] == month]
 # --- Custom CSS for center titles and modern feel ---
 st.markdown("""
     <style>
-    .centered-title {
-        text-align: center;
-        font-size: 2.3em;
-        font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        color: #2c3e50;
-    }
-    .section-header {
-        font-size: 1.4em;
-        font-weight: 600;
-        border-bottom: 1px solid #ddd;
-        margin-top: 30px;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        color: #34495e;
-    }
-    .metric-box {
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-    }
-    </style>
+.centered-title {
+    text-align: center;
+    font-size: 2.3em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #1a1a1a;  /* lighter gray for visibility */
+}
+.section-header {
+    font-size: 1.4em;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    color: #2a2a2a;  /* darker, cleaner */
+}
+.metric-box {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # Title
@@ -99,7 +99,11 @@ fig.update_layout(
     plot_bgcolor='white',
     paper_bgcolor='white',
     margin=dict(l=10, r=10, t=40, b=10),
+    font=dict(color='#2a2a2a', size=12),  # text color for all labels
+    xaxis=dict(title_font=dict(size=14), tickfont=dict(size=12)),
+    yaxis=dict(title_font=dict(size=14), tickfont=dict(size=12))
 )
+
 st.plotly_chart(fig, use_container_width=True)
 
 # --- Summary Section ---
