@@ -22,21 +22,22 @@ st.markdown("""
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 10px;
-    color: #1a1a1a;  /* lighter gray for visibility */
+    color: #e0e0e0;  /* soft light gray for both modes */
 }
 .section-header {
     font-size: 1.4em;
     font-weight: 600;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #444;
     margin-top: 30px;
     margin-bottom: 10px;
     padding-bottom: 5px;
-    color: #2a2a2a;  /* darker, cleaner */
+    color: #e0e0e0;
 }
 .metric-box {
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #1e1e1e;
     border-radius: 8px;
+    color: #f5f5f5;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -96,12 +97,12 @@ fig.update_layout(
     height=400,
     xaxis_title="Profit Margin (%)",
     yaxis_title="Service Type",
-    plot_bgcolor='white',
-    paper_bgcolor='white',
+    plot_bgcolor='rgba(0,0,0,0)',  # transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # transparent
     margin=dict(l=10, r=10, t=40, b=10),
-    font=dict(color='#2a2a2a', size=12),  # text color for all labels
-    xaxis=dict(title_font=dict(size=14), tickfont=dict(size=12)),
-    yaxis=dict(title_font=dict(size=14), tickfont=dict(size=12))
+    font=dict(color='#e0e0e0', size=13),  # light gray font
+    xaxis=dict(title_font=dict(size=14, color='#e0e0e0'), tickfont=dict(size=12, color='#e0e0e0')),
+    yaxis=dict(title_font=dict(size=14, color='#e0e0e0'), tickfont=dict(size=12, color='#e0e0e0'))
 )
 
 st.plotly_chart(fig, use_container_width=True)
