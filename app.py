@@ -1,11 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from datetime import datetime
 import calendar
 from fpdf import FPDF
 import base64
-from io import BytesIO
 
 # Load and preprocess data
 df = pd.read_csv('vehicle_service_data.csv')
@@ -19,6 +17,20 @@ df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
 # Sidebar filter
 st.sidebar.header("Filter Options")
 month = st.sidebar.selectbox("Select Month", sorted(df['Month'].dropna().unique(), key=lambda x: month_order.index(x)))
+
+# Sidebar multiselect for Deeper Insights add-ons
+selected_addons = st.sidebar.multiselect(
+    "Select Additional Insights to Display",
+    [
+        "Technician Efficiency",
+        "Appointment No-Shows",
+        "Service Package Optimization",
+        "Parts Inventory",
+        "Lifetime Customer Value",
+        "Marketing Attribution",
+    ]
+)
+
 filtered_df = df[df['Month'] == month]
 
 # --- CSS ---
@@ -83,6 +95,7 @@ service_profit['Profit Margin (%)'] = (
 ).round(1)
 service_profit = service_profit.sort_values(by='Profit Margin (%)', ascending=False)
 st.dataframe(service_profit, use_container_width=True)
+
 fig = px.bar(
     service_profit,
     x='Profit Margin (%)',
@@ -104,14 +117,76 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
-# Additional Insights
-st.markdown("<div class='section-header'>Deeper Insights</div>", unsafe_allow_html=True)
-st.markdown("**1. Technician Efficiency & Utilization**\n- Jobs completed per tech per day\n- Avg labor hours vs. billed hours\n- Idle time between jobs")
-st.markdown("**2. Appointment No-Shows & Drop-Off Trends**\n- No-show % by day/time\n- Reschedule rate\n- Lead time before appointments")
-st.markdown("**3. Service Package Optimization**\n- Common pairings (e.g., oil + tire rotation)\n- Bundle vs. standalone revenue\n- Package conversion rates")
-st.markdown("**4. Parts Inventory vs. Service Demand**\n- Top parts by service type\n- Stock level vs. usage\n- Lost revenue from stockouts")
-st.markdown("**5. Lifetime Customer Value (LCV)**\n- Total revenue per customer\n- Visit frequency\n- Changes in spend over time")
-st.markdown("**6. Marketing Attribution**\n- Link traffic source to revenue\n- Conversion rate by channel\n- Estimated CAC")
+# Add-on functions
+def technician_efficiency(df):
+    st.markdown("<div class='section-header'>1. Technician Efficiency & Utilization</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Jobs completed per tech per day
+    - Avg labor hours vs. billed hours
+    - Idle time between jobs
+    """)
+
+def appointment_noshows(df):
+    st.markdown("<div class='section-header'>2. Appointment No-Shows & Drop-Off Trends</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - No-show % by day/time
+    - Reschedule rate
+    - Lead time before appointments
+    """)
+
+def service_package_optimization(df):
+    st.markdown("<div class='section-header'>3. Service Package Optimization</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Common pairings (e.g., oil + tire rotation)
+    - Bundle vs. standalone revenue
+    - Package conversion rates
+    """)
+
+def parts_inventory_vs_demand(df):
+    st.markdown("<div class='section-header'>4. Parts Inventory vs. Service Demand</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Top parts by service type
+    - Stock level vs. usage
+    - Lost revenue from stockouts
+    """)
+
+def lifetime_customer_value(df):
+    st.markdown("<div class='section-header'>5. Lifetime Customer Value (LCV)</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Total revenue per customer
+    - Visit frequency
+    - Changes in spend over time
+    """)
+
+def marketing_attribution(df):
+    st.markdown("<div class='section-header'>6. Marketing Attribution</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Link traffic source to revenue
+    - Conversion rate by channel
+    - Estimated CAC
+    """)
+
+# Display selected add-ons
+if selected_addons:
+    st.markdown("<div class='section-header'>Deeper Insights</div>", unsafe_allow_html=True)
+
+if "Technician Efficiency" in selected_addons:
+    technician_efficiency(filtered_df)
+
+if "Appointment No-Shows" in selected_addons:
+    appointment_noshows(filtered_df)
+
+if "Service Package Optimization" in selected_addons:
+    service_package_optimization(filtered_df)
+
+if "Parts Inventory" in selected_addons:
+    parts_inventory_vs_demand(filtered_df)
+
+if "Lifetime Customer Value" in selected_addons:
+    lifetime_customer_value(filtered_df)
+
+if "Marketing Attribution" in selected_addons:
+    marketing_attribution(filtered_df)
 
 # Summary
 st.markdown("<div class='section-header'>Summary & Recommendations</div>", unsafe_allow_html=True)
@@ -139,46 +214,55 @@ if st.button("Generate PDF Summary"):
     pdf.cell(200, 10, txt="Top Services by Profit Margin:", ln=1)
     for _, row in service_profit.head(3).iterrows():
         pdf.cell(200, 10, txt=f"{row['SERVICE_TYPE']}: {row['Profit Margin (%)']}%", ln=1)
-    pdf.ln(10)
-    pdf.cell(200, 10, txt="Top Services by Profit Margin:", ln=1)
-    for _, row in service_profit.head(3).iterrows():
-        pdf.cell(200, 10, txt=f"{row['SERVICE_TYPE']}: {row['Profit Margin (%)']}%", ln=1)
 
-    pdf.ln(10)
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(200, 10, txt="Additional Insights", ln=1)
-    pdf.set_font("Arial", '', 12)
-    pdf.multi_cell(0, 10, txt="""
-                                1. Technician Efficiency & Utilization
-                                - Jobs completed per tech per day
-                                - Avg labor hours vs. billed hours
-                                - Idle time between jobs
-                                
-                                2. Appointment No-Shows & Drop-Off Trends
-                                - No-show % by day/time
-                                - Reschedule rate
-                                - Lead time before appointments
-                                
-                                3. Service Package Optimization
-                                - Common pairings (e.g., oil + tire rotation)
-                                - Bundle vs. standalone revenue
-                                - Package conversion rates
-                                
-                                4. Parts Inventory vs. Service Demand
-                                - Top parts by service type
-                                - Stock level vs. usage
-                                - Lost revenue from stockouts
-                                
-                                5. Lifetime Customer Value (LCV)
-                                - Total revenue per customer
-                                - Visit frequency
-                                - Changes in spend over time
-                                
-                                6. Marketing Attribution
-                                - Link traffic source to revenue
-                                - Conversion rate by channel
-                                - Estimated CAC
-                                """)
+    if selected_addons:
+        pdf.ln(10)
+        pdf.set_font("Arial", 'B', 12)
+        pdf.cell(200, 10, txt="Additional Insights", ln=1)
+        pdf.set_font("Arial", '', 12)
+
+    if "Technician Efficiency" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+1. Technician Efficiency & Utilization
+- Jobs completed per tech per day
+- Avg labor hours vs. billed hours
+- Idle time between jobs
+""")
+    if "Appointment No-Shows" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+2. Appointment No-Shows & Drop-Off Trends
+- No-show % by day/time
+- Reschedule rate
+- Lead time before appointments
+""")
+    if "Service Package Optimization" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+3. Service Package Optimization
+- Common pairings (e.g., oil + tire rotation)
+- Bundle vs. standalone revenue
+- Package conversion rates
+""")
+    if "Parts Inventory" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+4. Parts Inventory vs. Service Demand
+- Top parts by service type
+- Stock level vs. usage
+- Lost revenue from stockouts
+""")
+    if "Lifetime Customer Value" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+5. Lifetime Customer Value (LCV)
+- Total revenue per customer
+- Visit frequency
+- Changes in spend over time
+""")
+    if "Marketing Attribution" in selected_addons:
+        pdf.multi_cell(0, 10, txt="""
+6. Marketing Attribution
+- Link traffic source to revenue
+- Conversion rate by channel
+- Estimated CAC
+""")
 
     pdf_bytes = pdf.output(dest='S').encode('latin1')
     b64 = base64.b64encode(pdf_bytes).decode()
