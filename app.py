@@ -55,7 +55,7 @@ st.markdown("<div class='centered-title'>Auto Shop Performance Dashboard</div>",
 st.write(f"**Month Selected:** {month}")
 
 # Online Reputation
-st.markdown("<div class='section-header'>2. Online Reputation Summary</div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'>Online Reputation Summary</div>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 col1.metric("Total Google Reviews", "98", "+4")
 col2.metric("Avg Star Rating", "4.1")
