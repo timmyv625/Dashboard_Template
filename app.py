@@ -223,42 +223,42 @@ if st.button("Generate PDF Summary"):
 
     if "Technician Efficiency" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-1. Technician Efficiency & Utilization
+Technician Efficiency & Utilization
 - Jobs completed per tech per day
 - Avg labor hours vs. billed hours
 - Idle time between jobs
 """)
     if "Appointment No-Shows" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-2. Appointment No-Shows & Drop-Off Trends
+Appointment No-Shows & Drop-Off Trends
 - No-show % by day/time
 - Reschedule rate
 - Lead time before appointments
 """)
     if "Service Package Optimization" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-3. Service Package Optimization
+Service Package Optimization
 - Common pairings (e.g., oil + tire rotation)
 - Bundle vs. standalone revenue
 - Package conversion rates
 """)
     if "Parts Inventory" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-4. Parts Inventory vs. Service Demand
+Parts Inventory vs. Service Demand
 - Top parts by service type
 - Stock level vs. usage
 - Lost revenue from stockouts
 """)
     if "Lifetime Customer Value" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-5. Lifetime Customer Value (LCV)
+Lifetime Customer Value (LCV)
 - Total revenue per customer
 - Visit frequency
 - Changes in spend over time
 """)
     if "Marketing Attribution" in selected_addons:
         pdf.multi_cell(0, 10, txt="""
-6. Marketing Attribution
+Marketing Attribution
 - Link traffic source to revenue
 - Conversion rate by channel
 - Estimated CAC
