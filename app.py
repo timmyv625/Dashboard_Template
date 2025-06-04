@@ -104,6 +104,22 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
+# Additional Insights
+st.markdown("<div class='section-header'>7. Deeper Insights</div>", unsafe_allow_html=True)
+st.markdown("**1. Technician Efficiency & Utilization**\n- Jobs completed per tech per day\n- Avg labor hours vs. billed hours\n- Idle time between jobs")
+st.markdown("**2. Appointment No-Shows & Drop-Off Trends**\n- No-show % by day/time\n- Reschedule rate\n- Lead time before appointments")
+st.markdown("**3. Service Package Optimization**\n- Common pairings (e.g., oil + tire rotation)\n- Bundle vs. standalone revenue\n- Package conversion rates")
+st.markdown("**4. Parts Inventory vs. Service Demand**\n- Top parts by service type\n- Stock level vs. usage\n- Lost revenue from stockouts")
+st.markdown("**5. Lifetime Customer Value (LCV)**\n- Total revenue per customer\n- Visit frequency\n- Changes in spend over time")
+st.markdown("**6. Marketing Attribution**\n- Link traffic source to revenue\n- Conversion rate by channel\n- Estimated CAC")
+
+# Summary
+st.markdown("<div class='section-header'>6. Summary & Recommendations</div>", unsafe_allow_html=True)
+st.markdown("- Strong margins on tire rotation and A/C services.")
+st.markdown("- Consider raising prices for brake services.")
+st.markdown("- Respond to 2-star review from May 18 to maintain SEO.")
+st.markdown("- Send follow-up offer to inactive customers.")
+
 # PDF Export
 st.markdown("<div class='section-header'>5. Generate Monthly Report PDF</div>", unsafe_allow_html=True)
 if st.button("Generate PDF Summary"):
@@ -123,28 +139,52 @@ if st.button("Generate PDF Summary"):
     pdf.cell(200, 10, txt="Top Services by Profit Margin:", ln=1)
     for _, row in service_profit.head(3).iterrows():
         pdf.cell(200, 10, txt=f"{row['SERVICE_TYPE']}: {row['Profit Margin (%)']}%", ln=1)
+    pdf.ln(10)
+    pdf.cell(200, 10, txt="Top Services by Profit Margin:", ln=1)
+    for _, row in service_profit.head(3).iterrows():
+        pdf.cell(200, 10, txt=f"{row['SERVICE_TYPE']}: {row['Profit Margin (%)']}%", ln=1)
+
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(200, 10, txt="Additional Insights", ln=1)
+    pdf.set_font("Arial", '', 12)
+    pdf.multi_cell(0, 10, txt="""
+                                1. Technician Efficiency & Utilization
+                                - Jobs completed per tech per day
+                                - Avg labor hours vs. billed hours
+                                - Idle time between jobs
+                                
+                                2. Appointment No-Shows & Drop-Off Trends
+                                - No-show % by day/time
+                                - Reschedule rate
+                                - Lead time before appointments
+                                
+                                3. Service Package Optimization
+                                - Common pairings (e.g., oil + tire rotation)
+                                - Bundle vs. standalone revenue
+                                - Package conversion rates
+                                
+                                4. Parts Inventory vs. Service Demand
+                                - Top parts by service type
+                                - Stock level vs. usage
+                                - Lost revenue from stockouts
+                                
+                                5. Lifetime Customer Value (LCV)
+                                - Total revenue per customer
+                                - Visit frequency
+                                - Changes in spend over time
+                                
+                                6. Marketing Attribution
+                                - Link traffic source to revenue
+                                - Conversion rate by channel
+                                - Estimated CAC
+                                """)
 
     pdf_bytes = pdf.output(dest='S').encode('latin1')
     b64 = base64.b64encode(pdf_bytes).decode()
     
     href = f'<a href="data:application/octet-stream;base64,{b64}" download="auto_shop_summary.pdf">Download Report PDF</a>'
     st.markdown(href, unsafe_allow_html=True)
-
-# Summary
-st.markdown("<div class='section-header'>6. Summary & Recommendations</div>", unsafe_allow_html=True)
-st.markdown("- Strong margins on tire rotation and A/C services.")
-st.markdown("- Consider raising prices for brake services.")
-st.markdown("- Respond to 2-star review from May 18 to maintain SEO.")
-st.markdown("- Send follow-up offer to inactive customers.")
-
-# Additional Insights
-st.markdown("<div class='section-header'>7. Deeper Insights</div>", unsafe_allow_html=True)
-st.markdown("**1. Technician Efficiency & Utilization**\n- Jobs completed per tech per day\n- Avg labor hours vs. billed hours\n- Idle time between jobs")
-st.markdown("**2. Appointment No-Shows & Drop-Off Trends**\n- No-show % by day/time\n- Reschedule rate\n- Lead time before appointments")
-st.markdown("**3. Service Package Optimization**\n- Common pairings (e.g., oil + tire rotation)\n- Bundle vs. standalone revenue\n- Package conversion rates")
-st.markdown("**4. Parts Inventory vs. Service Demand**\n- Top parts by service type\n- Stock level vs. usage\n- Lost revenue from stockouts")
-st.markdown("**5. Lifetime Customer Value (LCV)**\n- Total revenue per customer\n- Visit frequency\n- Changes in spend over time")
-st.markdown("**6. Marketing Attribution**\n- Link traffic source to revenue\n- Conversion rate by channel\n- Estimated CAC")
 
 # Footer
 st.markdown("---")
